@@ -1,0 +1,32 @@
+Logic :
+
+1. Stored amount_per_km against category of vehicle in mongo db. checkout model -> vehicle-model.js
+2. Google distance matrix api was not available for this region. So, I generated self made 
+    dataset of few place in delhi. Please checkout model -> distance-model.js.
+3. In controller folder wrote the logic for authentication. checkout controller -> check-auth-controller.js
+4. In router folder wrote the logic for routing between controller and server. checkout router -> auth-router.js
+
+
+How the project run?
+
+1. npm start : use the project in development-mode.
+2. npm serve : futher use during production-mode.
+
+
+Url to access the API:
+*Important: Kindly check the distance model for origin & destination*
+http://localhost:3000/api/authcheck
+Request-Body:
+{
+    "origin" : "jama masjid",
+    "dest" : "chandni chowk",
+    "city" : "delhi",
+    "vehicle_type": "luxury"
+}
+Response-Body:
+{
+    "Email Needed": true
+}
+
+Published on POSTMAN:
+URL - https://documenter.getpostman.com/view/18219100/2s8YRgpZjh
