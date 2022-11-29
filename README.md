@@ -7,7 +7,7 @@ npm install
 
 Post request with body(Price) :-
 1. https://rydeu-task-nodejs-yash.herokuapp.com/api/user/price ( deployed link on heroku)
-2. http://localhost:8080/api/user/price 
+2. http://localhost:8080/api/user/price <br>
 {
     "pickup": "london",
     "destination": "paris"
