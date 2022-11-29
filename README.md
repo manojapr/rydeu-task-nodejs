@@ -18,7 +18,7 @@ Post request with body(register) :-
 1. https://rydeu-task-nodejs-yash.herokuapp.com/api/user/register ( deployed link on heroku)
 2. http://localhost:8080/api/user/register <br>
 {
-    "countryCode": "NL", <br> <br>
+    "countryCode": "NL", <br>
     "city": "amsterdam", <br>
     "vehicleTypes": "Economy", <br>
     "amountAirportFees": 0.123, <br>
