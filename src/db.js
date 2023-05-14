@@ -8,9 +8,7 @@ pool.on('error', err => {
 });
 
 module.exports = {
-  db: {
-    query: async (text, values) => {
-      return pool.query(text, values);
-    },
+  query: async (text, values) => {
+    return pool.query(text, values);
   },
 };

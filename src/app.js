@@ -2,6 +2,8 @@ const express = require('express');
 require('express-async-errors');
 const dotenv = require('dotenv');
 dotenv.config();
+// const errorHandler = require('./middleware/error-handler');
+
 const app = express();
 
 const { priceRouter } = require('./routes/price');
@@ -14,5 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/price', priceRouter);
+// app.use(errorHandler);
 
-app.listen(5000, () => console.log('listening on 5000'));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`listening on port ${port}`));
