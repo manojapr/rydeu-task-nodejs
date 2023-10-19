@@ -24,4 +24,4 @@ const start = async () => {
 
 start();
 
-app.use(errorMiddleware);
+app.use(errorMiddleware); 
