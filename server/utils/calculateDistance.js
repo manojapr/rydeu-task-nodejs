@@ -3,7 +3,10 @@ const asyncHandler = require("express-async-handler");
 require("dotenv").config({path : "../.env"});
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
+//google maps API endpoint
 const distanceMatrixUrl = `https://maps.googleapis.com/maps/api/distancematrix/json`;
+
+//returns the distance between the two cities in KM.
 
 const getDistance = asyncHandler(async (source, destination) => {
   const response = await axios.get(
