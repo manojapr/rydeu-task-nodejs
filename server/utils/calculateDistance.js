@@ -7,9 +7,9 @@ const distanceMatrixUrl = `https://maps.googleapis.com/maps/api/distancematrix/j
 
 const getDistance = asyncHandler(async (source, destination) => {
   const response = await axios.get(
-    `${distanceMatrixUrl}?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`
+    `${distanceMatrixUrl}?units=metric&origins=${source}&destinations=${destination}&key=${apiKey}`
   );
-  const distance = response.data.rows[0].elements[0].distance.text;
+  const distance = response.data.rows[0].elements[0].distance.value/1000;
   return Number(distance);
 });
 

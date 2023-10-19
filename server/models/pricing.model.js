@@ -11,7 +11,6 @@ const PricingSchema = new mongoose.Schema({
   },
   vehicleType: {
     type: String,
-    enum: ["Economy", "Comfort", "Minivan"],
     required: [true, "Vehicle Type is required "],
   },
   amountAirportFees: {
@@ -19,9 +18,9 @@ const PricingSchema = new mongoose.Schema({
     required: [true, "Airport fees amount is required"],
     validate: {
       validator: function (v) {
-        return v > 0;
+        return v >= 0;
       },
-      message: "Airport Fees Amount must be greater than zero",
+      message: "Airport Fees Amount must be greater than or equal zero",
     },
   },
   amountPerHour: {
@@ -29,9 +28,9 @@ const PricingSchema = new mongoose.Schema({
     required: [true, "Amount per hour is reuired !"],
     validate: {
       validator: function (v) {
-        return v > 0;
+        return v >= 0;
       },
-      message: "Amount per hour must be greater than zero",
+      message: "Amount per hour must be greater than or equal zero",
     },
   },
   amountPerKm: {
@@ -39,9 +38,9 @@ const PricingSchema = new mongoose.Schema({
     required: [true, "Amount per KM is reuired !"],
     validate: {
       validator: function (v) {
-        return v > 0;
+        return v >= 0;
       },
-      message: "Amount per KM must be greater than zero",
+      message: "Amount per KM must be greater than or equal zero",
     },
   },
   baseAmount: {

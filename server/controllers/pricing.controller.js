@@ -6,32 +6,35 @@ const Pricing = require("../models/pricing.model");
 const { getDistance } = require("../utils/calculateDistance");
 const { FLAGGED_CITIES } = require("../utils/data");
 
-// adds a new p
+const requiredFields = [
+  "country",
+  "city",
+  "vehicleType",
+  "amountAirportFees",
+  "amountPerHour",
+  "amountPerKm",
+  "baseAmount",
+  "baseKm",
+];
+
 const addPricing = asyncHandler(async (req, res) => {
-  //checking if all the required values are received
-  const {
-    country,
-    city,
-    vehicleType,
-    amountAirportFees,
-    amountPerHour,
-    amountPerKm,
-    baseAmount,
-    baseKm,
-  } = req.body;
-  if (
-    !country ||
-    !city ||
-    !vehicleType ||
-    !amountAirportFees ||
-    !amountPerHour ||
-    !amountPerKm ||
-    !baseAmount ||
-    !baseKm
-  ) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, "Fill the required details");
+  const missingFields = [];
+  requiredFields.forEach((field) => {
+    if (
+      req.body[field] === undefined ||
+      req.body[field] === null ||
+      req.body[field] === ""
+    ) {
+      missingFields.push(field);
+    }
+  });
+
+  if (missingFields.length > 0) {
+    const errorMessage = `Missing fields: ${missingFields.join(", ")}`;
+    throw new ApiError(StatusCodes.BAD_REQUEST, errorMessage);
   }
 
+  const { country, city, vehicleType } = req.body;
   const pricingExists = await Pricing.findOne({ country, city, vehicleType });
   if (pricingExists) {
     throw new ApiError(StatusCodes.CONFLICT, "Pricing details exists");
@@ -52,36 +55,48 @@ const checkPricing = asyncHandler(async (req, res) => {
     );
   }
 
-  if (FLAGGED_CITIES.includes(pickup)) {
-    return res
-      .status(200)
-      .json({ message: "User has to enter email", result: true });
+  if (!FLAGGED_CITIES.includes(pickup)) {
+    return res.status(StatusCodes.OK).json({
+      message: "User has to enter email",
+      result: true,
+      code: StatusCodes.OK,
+    });
   }
-
   const distance = await getDistance(pickup, destination);
-  const pricingData = await Pricing.findOne({ city: pickup });
-
+  const pricingData = await Pricing.findOne({ city: pickup.toLowerCase() });
+  if (!pricingData) {
+    return res.status(StatusCodes.NOT_FOUND).json({
+      message: "Pricing details not found",
+      code: StatusCodes.NOT_FOUND,
+    });
+  }
   if (distance > 1000) {
     return res
       .status(StatusCodes.OK)
-      .json({ message: "Too far to offer ride" });
+      .json({ message: "Too far to offer ride", code: StatusCodes.OK });
   }
 
-  if (distance > 30) {
-    return res
-      .status(StatusCodes.OK)
-      .json({ message: "User has to enter email", result: true });
+  if (distance > 40) {
+    return res.status(StatusCodes.OK).json({
+      message: "User has to enter email",
+      result: true,
+      code: StatusCodes.OK,
+    });
   }
 
   const totalCost = pricingData.baseAmount + distance * pricingData.amountPerKm;
-
   if (totalCost < 50) {
     return res
       .status(StatusCodes.OK)
-      .json({ message: "User has to enter email", result: true });
+      .json({
+        message: "User has to enter email",
+        result: true,
+        code: StatusCodes.OK,
+      });
   }
   return res
     .status(StatusCodes.OK)
-    .json({ message: "Pricing details sent", cost: totalCost });
+    .json({ message: "Pricing details sent", cost: `\u20AC ${totalCost}`,code : StatusCodes.OK });
 });
+
 module.exports = { addPricing, checkPricing };
