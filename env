@@ -1,0 +1,8 @@
+# Port on which the server will run
+PORT=PORT_NO
+
+# MongoDB connection URI
+MONGODB_URI=MONGODB_URL
+
+# Google Geocode API Key
+GOOGLE_API_KEY=GOOGLE_API_KEY
