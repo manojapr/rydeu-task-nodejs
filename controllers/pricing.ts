@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express"
 import { PricingDAO } from "../dao/pricingDAO";
 import Pricing, { IPricing } from "../models/Pricing"
 import { calculateDistance } from "../utils/calculateDist";
+import { pricingSchemaValidator } from "../utils/validator/validator";
 
 export const getData = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,6 +20,8 @@ export const getData = async (req: Request, res: Response, next: NextFunction) =
 export const postData = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const pricingData = req.body;
+
+        await pricingSchemaValidator.validateAsync(pricingData)
 
         await PricingDAO.addPricingData(pricingData);
 
