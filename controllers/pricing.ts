@@ -66,7 +66,7 @@ export const getPricingDetails = async (req: Request, res: Response, next: NextF
             })
         }
 
-        const data = await Pricing.find({city: pickup}).exec()
+        const data = await PricingDAO.getPricingData(pickup)
         const price_object: any = {};
 
         for (const d of data) {
