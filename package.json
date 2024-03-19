@@ -7,7 +7,8 @@
     "build": "npx tsc -b",
     "start": "node dist/server.js",
     "dev": "npm run build && npm run start",
-    "dev:docker": "npm run prisma:migrate && npm run dev"
+    "dev:docker": "npm run prisma:migrate && npm run dev",
+    "prisma:migrate": "prisma migrate deploy && npx prisma generate"
   },
   "keywords": [],
   "author": "",
